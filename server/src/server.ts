@@ -8,7 +8,15 @@ import fs from "fs";
 dotenv.config();
 
 const app = express();
-app.use(cors({ origin: ["https://final-year-project-mocha-phi.vercel.app", "http://localhost:5173"], credentials: true }));
+app.use(
+  cors({
+    origin: [
+      "https://final-year-project-mocha-phi.vercel.app",
+      "http://localhost:5173",
+    ],
+    credentials: true,
+  })
+);
 app.use(express.json());
 
 const upload = multer({ dest: "uploads/" });
@@ -225,6 +233,25 @@ ${feedbackText}
 });
 
 const PORT = Number(process.env.PORT || 5001);
+app.post("/explain-word", async (req, res) => {
+  const { word } = req.body;
+  if (!word) return res.status(400).json({ error: "No word provided" });
+
+  const completion = await openai.chat.completions.create({
+    model: "gpt-4o-mini",
+    messages: [
+      {
+        role: "user",
+        content: `Explain the word or phrase "${word}" in very simple plain English in 1-2 short sentences. If it's a technical accessibility term, explain what it means for everyday users.`,
+      },
+    ],
+    max_tokens: 80,
+  });
+
+  const explanation =
+    completion.choices[0]?.message?.content ?? "No explanation found.";
+  res.json({ explanation });
+});
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -1,6 +1,7 @@
 import Navbar from "./Navbar";
 import { Outlet } from "react-router-dom";
 import React from "react";
+import WordExplainer from "../components/WordExplainer";
 
 export default function AppLayout() {
     const [darkMode, setDarkMode] = React.useState(false);
@@ -28,6 +29,7 @@ export default function AppLayout() {
             <main className="max-w-6xl mx-auto px-6 py-6">
                 <Outlet />
             </main>
+            <WordExplainer />
         </div>
     );
 }
