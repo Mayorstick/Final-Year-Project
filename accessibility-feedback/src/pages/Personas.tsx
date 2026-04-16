@@ -86,6 +86,14 @@ export default function Personas() {
 
     const [savingId, setSavingId] = React.useState<string | null>(null);
     const [message, setMessage] = React.useState("");
+    const [search, setSearch] = React.useState("");
+
+    const filteredPersonas = PERSONAS.filter(
+        (p) =>
+            p.name.toLowerCase().includes(search.toLowerCase()) ||
+            p.tag.toLowerCase().includes(search.toLowerCase()) ||
+            p.description.toLowerCase().includes(search.toLowerCase())
+    );
 
     if (loading) {
         return <div className="p-6 text-slate-900 dark:text-slate-100">Loading personas…</div>;
@@ -151,8 +159,20 @@ export default function Personas() {
                     </div>
                 )}
 
-                <div className="mt-8 space-y-6">
-                    {PERSONAS.map((p) => {
+                <div className="mt-6">
+                    <input
+                        type="text"
+                        placeholder="Search personas by name or type..."
+                        value={search}
+                        onChange={(e) => setSearch(e.target.value)}
+                        className="w-full rounded-xl border px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-800 dark:border-slate-700 dark:text-slate-100 dark:placeholder-slate-400"
+                    />
+                    {filteredPersonas.length === 0 && (
+                        <p className="mt-4 text-center text-slate-500">No personas match your search.</p>
+                    )}
+                </div>
+                <div className="mt-4 space-y-6">
+                    {filteredPersonas.map((p) => {
                         const isActive = p.id === activeId;
                         const isSaving = savingId === p.id;
                         const isEnhanced =
