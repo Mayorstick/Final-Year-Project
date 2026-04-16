@@ -74,6 +74,9 @@ export default function MissionCompleted() {
     if (!missionId) return <div className="p-6 text-slate-900 dark:text-slate-100">Missing mission id.</div>;
 
     async function handleSubmit() {
+        const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3");
+        audio.volume = 0.5;
+        audio.play().catch(() => { });
         setSaving(true);
         try {
             const userRef = doc(db, "users", authUser.uid);
