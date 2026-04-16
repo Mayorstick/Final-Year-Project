@@ -25,6 +25,10 @@ export default function MissionCompleted() {
     React.useEffect(() => {
         requestAnimationFrame(() => setMounted(true));
 
+        const audio = new Audio("https://www.soundjay.com/human/applause-01.mp3");
+        audio.volume = 0.5;
+        audio.play().catch(() => { });
+
         const duration = 1.5 * 1000;
         const animationEnd = Date.now() + duration;
 
