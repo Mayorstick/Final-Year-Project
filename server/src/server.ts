@@ -256,3 +256,26 @@ app.post("/explain-word", async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
 });
+
+app.post("/explain-word", async (req, res) => {
+    const { word } = req.body;
+    if (!word) return res.status(400).json({ error: "No word provided" });
+
+    try {
+        const completion = await openai.chat.completions.create({
+            model: "gpt-4o-mini",
+            messages: [
+                {
+                    role: "user",
+                    content: `Explain the word or phrase "${word}" in very simple plain English in 1-2 short sentences. If it's a technical accessibility term, explain what it means for everyday users.`
+                }
+            ],
+            max_tokens: 80,
+        });
+
+        const explanation = completion.choices[0]?.message?.content ?? "No explanation found.";
+        res.json({ explanation });
+    } catch (err: any) {
+        res.status(500).json({ error: err?.message ?? "Failed to explain word." });
+    }
+});
