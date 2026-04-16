@@ -4,10 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../firebase/firebase";
 
-
 function usePrefersReducedMotion() {
     const [reduced, setReduced] = React.useState(false);
-
     React.useEffect(() => {
         const media = window.matchMedia("(prefers-reduced-motion: reduce)");
         const update = () => setReduced(media.matches);
@@ -15,7 +13,6 @@ function usePrefersReducedMotion() {
         media.addEventListener("change", update);
         return () => media.removeEventListener("change", update);
     }, []);
-
     return reduced;
 }
 
@@ -24,17 +21,15 @@ export default function Login() {
     const navigate = useNavigate();
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
-
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState("");
 
-    const inputClass =
-        "mt-2 w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500";
+    const inputClass = "mt-2 w-full rounded-xl border px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500";
+
     async function handleLogin(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         setError("");
         setLoading(true);
-
         try {
             await signInWithEmailAndPassword(auth, email, password);
             navigate("/personas");
@@ -46,31 +41,29 @@ export default function Login() {
     }
 
     return (
-        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row items-center justify-center px-4">
+        <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row items-center justify-center px-4 py-8">
             {/* Left - Decorative Animation */}
-            <div className="flex-1 flex flex-col items-center justify-center">
+            <div className="flex flex-col items-center justify-center md:flex-1 mb-4 md:mb-0">
                 <div aria-hidden="true">
                     <DotLottieReact
                         src="https://lottie.host/1a161062-3515-4a3a-bb73-bbd1a29c594e/cvfyahufh6.lottie"
                         loop={!reducedMotion}
                         autoplay={!reducedMotion}
-                        style={{ width: 400, height: 400 }}
+                        style={{ width: 200, height: 200 }}
                         tabIndex={-1}
                     />
                 </div>
-
-                <h1 className="text-4xl font-bold mt-4">Welcome!</h1>
-                <p className="text-slate-600 mt-2 text-center px-4">
+                <h1 className="text-3xl md:text-4xl font-bold mt-2">Welcome!</h1>
+                <p className="text-slate-600 mt-1 text-center px-4 text-sm md:text-base">
                     Learn to make the web accessible for everyone.
                 </p>
             </div>
 
-
             {/* Right - Login Form */}
-            <div className="flex-1 flex justify-center">
-                <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border p-8">
-                    <h2 className="text-3xl font-bold">Welcome Back!</h2>
-                    <p className="text-slate-600 mt-2">
+            <div className="w-full md:flex-1 flex justify-center">
+                <div className="w-full max-w-md bg-white rounded-2xl shadow-lg border p-6 md:p-8">
+                    <h2 className="text-2xl md:text-3xl font-bold">Welcome Back!</h2>
+                    <p className="text-slate-600 mt-2 text-sm md:text-base">
                         Login to continue learning about web accessibility.
                     </p>
                     {error && (
@@ -78,7 +71,6 @@ export default function Login() {
                             {error}
                         </div>
                     )}
-
                     <form className="mt-6 space-y-4" onSubmit={handleLogin}>
                         <div>
                             <label htmlFor="email" className="text-sm font-medium text-slate-700">
@@ -95,7 +87,6 @@ export default function Login() {
                                 onChange={(e) => setEmail(e.target.value)}
                             />
                         </div>
-
                         <div>
                             <label htmlFor="password" className="text-sm font-medium text-slate-700">
                                 Password
@@ -111,27 +102,19 @@ export default function Login() {
                                 onChange={(e) => setPassword(e.target.value)}
                             />
                         </div>
-
                         <button
                             type="submit"
-                            className="w-full rounded-xl bg-green-600 py-3 font-semibold text-white hover:bg-green-700 active:bg-green-800      
-                             transition"
+                            className="w-full rounded-xl bg-green-600 py-3 font-semibold text-white hover:bg-green-700 active:bg-green-800 transition"
                             disabled={loading}
-
-
                         >
-
                             {loading ? "Logging in..." : "Login"}
                         </button>
-
                         <div className="flex flex-col items-center gap-2 mt-2 text-sm text-slate-600">
-
                             <button type="button" className="text-blue-600 hover:underline" onClick={() => navigate("/forgot-password")}>
                                 Forgot Password?
                             </button>
-                            <p>Don’t have an account?</p>
+                            <p>Don't have an account?</p>
                         </div>
-
                         <button
                             type="button"
                             onClick={() => navigate("/signup")}
@@ -140,8 +123,6 @@ export default function Login() {
                             Sign Up
                         </button>
                     </form>
-
-
                 </div>
             </div>
         </div>
