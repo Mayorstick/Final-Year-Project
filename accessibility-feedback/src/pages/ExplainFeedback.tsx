@@ -64,7 +64,7 @@ export default function ExplainFeedback() {
                 formData.append("screenshot", selectedImage);
             }
 
-            const res = await fetch("http://localhost:5001/generate-issue", {
+            const res = await fetch("https://final-year-project-production-b3ad.up.railway.app/generate-issue", {
                 method: "POST",
                 body: formData,
             });
