@@ -25,7 +25,9 @@ export default function MissionCompleted() {
     React.useEffect(() => {
         requestAnimationFrame(() => setMounted(true));
 
-        const audio = new Audio("https://www.soundjay.com/human/applause-01.mp3");
+
+
+        const audio = new Audio("https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3");
         audio.volume = 0.5;
         audio.play().catch(() => { });
 
