@@ -30,32 +30,48 @@ export default function WordExplainer() {
     }
 
     React.useEffect(() => {
-        function handleMouseUp(e: MouseEvent) {
+        let touchTimer: ReturnType<typeof setTimeout> | null = null;
+
+        function handleSelectionChange() {
             const selection = window.getSelection();
             const word = selection?.toString().trim();
 
-            if (!word || word.split(" ").length > 3 || word.length < 3) {
-                return;
-            }
+            if (!word || word.split(" ").length > 3 || word.length < 3) return;
+
+            const range = selection?.getRangeAt(0);
+            const rect = range?.getBoundingClientRect();
+            if (!rect) return;
 
             if (timeoutRef.current) clearTimeout(timeoutRef.current);
             timeoutRef.current = setTimeout(() => {
-                explainWord(word, e.clientX, e.clientY);
+                explainWord(word, rect.left + rect.width / 2, rect.bottom + window.scrollY);
             }, 300);
         }
 
-        function handleClick(e: MouseEvent) {
+        function handleClick(e: MouseEvent | TouchEvent) {
             const target = e.target as HTMLElement;
             if (!target.closest("#word-explainer-tooltip")) {
                 setTooltip(null);
             }
         }
 
-        document.addEventListener("mouseup", handleMouseUp);
+        function handleTouchEnd() {
+            if (touchTimer) clearTimeout(touchTimer);
+            touchTimer = setTimeout(() => {
+                handleSelectionChange();
+            }, 400);
+        }
+
+        document.addEventListener("mouseup", handleSelectionChange);
+        document.addEventListener("touchend", handleTouchEnd);
         document.addEventListener("click", handleClick);
+        document.addEventListener("touchstart", handleClick as any);
+
         return () => {
-            document.removeEventListener("mouseup", handleMouseUp);
+            document.removeEventListener("mouseup", handleSelectionChange);
+            document.removeEventListener("touchend", handleTouchEnd);
             document.removeEventListener("click", handleClick);
+            document.removeEventListener("touchstart", handleClick as any);
         };
     }, []);
 
