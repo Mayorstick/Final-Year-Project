@@ -13,7 +13,7 @@ export type MissionIssue = {
   xpReward: number;
   options: IssueOption[];
 
-  // 👇 ADD THESE
+  
   whoIsAffected: string[];
   whyItMatters: string;
   howToFix: {
@@ -23,7 +23,7 @@ export type MissionIssue = {
 };
 
 export const ISSUES: MissionIssue[] = [
-  // ✅ Screen reader mission sr-1
+  
   {
     id: "sr-1-issue-1",
     missionId: "sr-1",
@@ -34,7 +34,7 @@ export const ISSUES: MissionIssue[] = [
     question: "What should the alternative text say?",
     xpReward: 50,
 
-    // 👇 ADD THESE
+    
     whoIsAffected: ["Screen reader users"],
     whyItMatters:
       "Without alt text, screen readers cannot describe images. Users relying on assistive technology won’t understand what product is being shown.",
@@ -63,7 +63,7 @@ export const ISSUES: MissionIssue[] = [
     question: "What should be added to make this button accessible?",
     xpReward: 50,
 
-    // 👇 NEW fields (same structure as Issue 1)
+    
     whoIsAffected: [
       "Screen reader users",
       "Keyboard-only users (using assistive tech)",
