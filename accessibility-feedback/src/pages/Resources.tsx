@@ -68,11 +68,7 @@ export default function Resources() {
                     <h3 className="font-semibold text-indigo-900 dark:text-indigo-300">
                         More coming soon
                     </h3>
-                    <p className="mt-2 text-sm text-indigo-800 dark:text-indigo-200">
-                        In future versions, this section may include curated WCAG
-                        guides, accessibility checklists, and structured learning
-                        paths.
-                    </p>
+                    
                 </div>
             </div>
         </div>
