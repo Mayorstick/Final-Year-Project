@@ -33,13 +33,12 @@ export default function Leaderboard() {
     const [loading, setLoading] = React.useState(true);
     const [error, setError] = React.useState("");
 
-    // ✅ filter mode: "overall" or "persona"
     const [mode, setMode] = React.useState<"overall" | "persona">("overall");
 
     React.useEffect(() => {
         let qRef: any;
 
-        // if persona mode but user has no persona yet, we fallback to overall
+        
         const personaId = profile?.activePersonaId ?? null;
         const usePersonaFilter = mode === "persona" && !!personaId;
 
@@ -48,7 +47,7 @@ export default function Leaderboard() {
             setError("");
 
             if (usePersonaFilter) {
-                // 🔎 Persona leaderboard = users whose activePersonaId matches mine
+
                 qRef = query(
                     collection(db, "users"),
                     where("activePersonaId", "==", personaId),
@@ -56,11 +55,11 @@ export default function Leaderboard() {
                     limit(50)
                 );
             } else {
-                // 🌍 Overall leaderboard
+                
                 qRef = query(collection(db, "users"), orderBy("xp", "desc"), limit(50));
             }
 
-            // ✅ REAL-TIME SUBSCRIPTION
+       
             const unsub = onSnapshot(
                 qRef,
                 (snap) => {
@@ -76,10 +75,10 @@ export default function Leaderboard() {
                         };
                     });
 
-                    // docs are unique already, but keeping this is fine:
+                   
                     const unique = Array.from(new Map(raw.map((r) => [r.uid, r])).values());
 
-                    setRows(unique); // ✅ REPLACE (never append)
+                    setRows(unique); 
                     setLoading(false);
                 },
                 (err) => {
