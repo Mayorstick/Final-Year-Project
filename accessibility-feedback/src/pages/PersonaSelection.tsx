@@ -51,7 +51,7 @@ export default function PersonaSelection() {
                 activePersonaAvatarUrl: p.avatarUrl,
             });
 
-            navigate("/dashboard"); // or /dashboard if you prefer
+            navigate("/dashboard"); 
         } catch (e: any) {
             setError(e?.message ?? "Failed to save persona.");
         } finally {
